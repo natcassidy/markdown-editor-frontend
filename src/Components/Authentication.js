@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react/cjs/react.development'
+import { UserContext } from '../UserContext'
 
 const Authentication = () => {
-    const [username, setUsername] = useState("")
+    const [user, setUser] = useState("")
     const [password, setPassword] = useState("")
-    const [user, setUser] = useState()
-    const [token, setToken] = useState()
 
-    const handleUsername = (e, field) => {
+    const { setUsername, setToken, token } = useContext(UserContext)
+
+    const handleUser = (e, field) => {
         let text = e.target.value
 
-        setUsername(text)
+        setUser(text)
     }
 
     const handlePassword = (e, field) => {
@@ -26,13 +27,15 @@ const Authentication = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username,
+                username: user,
                 password
             })
-        }).then(result => {
-            setUser(result.json())
-            setUsername("")
+        }).then(response => response.json()).then(result => {
+            setUsername(user)
+            setToken(result.accessToken)
+            setUser("")
             setPassword("")
+            console.log('user ', result)
         }).catch(err => {
             console.log('err', err)
         })
@@ -50,7 +53,7 @@ const Authentication = () => {
             <div class="w-screen h-full flex justify-center content-center self-center">
                 <div class="flex flex-col justify-center items-center items-stretch border-gray-100 border-2 p-8 w-1/4 h-auto gap-4 self-center shadow">
                     <h4 class="font-bold font-mono text-xl text-green-400 self-center">Login</h4>
-                    <input name="username" value={username} onChange={(e) => handleUsername(e)} type="text" placeholder="Username" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                    <input name="username" value={user} onChange={(e) => handleUser(e)} type="text" placeholder="Username" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                     <input name="username" value={password} onChange={(e) => handlePassword(e)} type="text" placeholder="Password" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                     <button onClick={() => handleSubmit()} class="bg-blue-300 hover:bg-blue-400 p-1 shadow font-bold font-mono text-xl text-white" type="button">Enter</button>
                 </div>

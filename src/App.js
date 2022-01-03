@@ -1,29 +1,30 @@
 import './App.css'
 import Documents from './Components/Documents'
 import FullEditor from './Components/FullEditor'
-import Authentication from './Components/Authentication';
+import Authentication from './Components/Authentication'
 import {
   BrowserRouter as Router,
   Routes,
   Route
-} from "react-router-dom";
+} from "react-router-dom"
+import { UserContextProvider } from './UserContext'
 
 function App() {
   
 
   return (
-    <Router>
-      <div className="w-screen h-screen flex flex-col">
-        
-        <Routes>
-          <Route path="/" element={<Authentication />} />
-          <Route path="/editor" element={<FullEditor />} />
-          <Route path="/editor/:id" element={<FullEditor />} />
-          <Route path="/documents" element={<Documents />} />
-        </Routes>
-      
-      </div>
-    </Router>
+    <UserContextProvider>
+      <Router>
+        <div className="w-screen h-screen flex flex-col">
+          <Routes>
+            <Route path="/" element={<Authentication />} />
+            <Route path="/editor" element={<FullEditor />} />
+            <Route path="/editor/:id" element={<FullEditor />} />
+            <Route path="/documents" element={<Documents />} />
+          </Routes>
+        </div>
+      </Router>
+    </UserContextProvider>
   );
 }
 
