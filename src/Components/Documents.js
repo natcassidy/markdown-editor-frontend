@@ -1,11 +1,20 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
+import { UserContext } from '../UserContext'
 import { Link } from 'react-router-dom'
 
 const Documents = () => {
     const [loadDocuments, setLoadDocuments] = useState([])
+
+    const { token } = useContext(UserContext)
+
     useEffect(() => {
+        console.log('fetching documents with tok, ', token)
         fetch('http://localhost:3001/documents', {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
         })
         .then(response => response.json())
         .then(data => {
@@ -22,8 +31,8 @@ const Documents = () => {
         <div className="h-full w-full flex p-16 gap-8 flex-wrap" id="display-board">
             {loadDocuments.length > 0 && loadDocuments.map(item => {
                 return (
-                    <Link to={`/editor/${item.documentID}`} className="border-2 rounded-md border-gray-200 h-56 sm:w-1/4 md:w-1/6 hover:border-gray-400 hover:shadow-md overflow-hidden overflow-ellipsis">
-                        <div key={item.documentID} >
+                    <Link key={item.documentID} to={`/editor/${item.documentID}`} className="border-2 rounded-md border-gray-200 h-56 sm:w-1/4 md:w-1/6 hover:border-gray-400 hover:shadow-md overflow-hidden overflow-ellipsis">
+                        <div >
                             <p className="text-xs p-2 text-gray-400 hover:text-gray-500">{item.content}</p>
                         </div>
                     </Link>

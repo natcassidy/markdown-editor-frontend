@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { useParams } from 'react-router-dom'
 import Editor from './Editor'
 import Output from './Output'
 import Navbar from './Navbar'
+import { UserContext } from '../UserContext'
 
 const FullEditor = () => {
     const [title, setTitle] = useState("")
@@ -10,6 +11,8 @@ const FullEditor = () => {
     const [updatedMarkdown, setUpdatedMarkdown] = useState("")
     const { id } = useParams()
     const [newDoc, setNewDoc] = useState(true)
+
+    const { token } = useContext(UserContext)
 
     const updateTitle = (e) => {
         let newTitle = e.target.value
@@ -26,19 +29,21 @@ const FullEditor = () => {
     const newDocument = () => {
         setTitle("")
         setMarkdown("")
+        setNewDoc(true)
     }
 
     const save = () => {
         if(newDoc === true) {
+            //This has not been tested after adding in the authorization header
             fetch('http://localhost:3001/new-document', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     title,
-                    content: markdown,
-                    user: "Nathaniel"
+                    content: markdown
                 }),
             })
             .then(response => response.json())
@@ -54,6 +59,7 @@ const FullEditor = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     title,
@@ -73,7 +79,11 @@ const FullEditor = () => {
 
     useEffect(() => {
         fetch(`http://localhost:3001/documents/${id}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
         })
         .then(response => response.json())
         .then(data => {

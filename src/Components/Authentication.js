@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useState } from 'react/cjs/react.development'
 import { UserContext } from '../UserContext'
+import { Link } from 'react-router-dom'
 
 const Authentication = () => {
     const [user, setUser] = useState("")
@@ -45,7 +46,7 @@ const Authentication = () => {
     return (
         <div>
             <div class="flex bg-blue-300 h-16 justify-end items-center">
-                <button class="bg-gray-500 hover:bg-gray-600 py-2 px-4 font-bold font-mono text-xl text-white rounded-md shadow-inner" type="button">Login</button>
+                <Link to="/documents" class="bg-gray-500 hover:bg-gray-600 py-2 px-4 font-bold font-mono text-xl text-white rounded-md shadow-inner" type="button">Login</Link>
                 <div>
                     <h4 class="font-bold font-mono text-xl text-white hover:text-green-400 mr-8 ml-4">Test</h4>
                 </div>
