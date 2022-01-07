@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Navigate, useNavigate } from 'react-router-dom'
 import Editor from './Editor'
 import Output from './Output'
 import Navbar from './Navbar'
@@ -9,8 +9,9 @@ const FullEditor = () => {
     const [title, setTitle] = useState("")
     const [markdown, setMarkdown] = useState("")
     const [updatedMarkdown, setUpdatedMarkdown] = useState("")
-    const { id } = useParams()
-    const [newDoc, setNewDoc] = useState(true)
+    let { id } = useParams()
+    let navigate = useNavigate()
+    // const [newDoc, setNewDoc] = useState(true)
 
     const { token } = useContext(UserContext)
 
@@ -26,14 +27,10 @@ const FullEditor = () => {
         setMarkdown(newMarkdown)
     }
 
-    const newDocument = () => {
-        setTitle("")
-        setMarkdown("")
-        setNewDoc(true)
-    }
 
     const save = () => {
-        if(newDoc === true) {
+        console.log('Save button clicked')
+        if(id == undefined) {
             //This has not been tested after adding in the authorization header
             fetch('http://localhost:3001/new-document', {
                 method: 'POST',
@@ -48,8 +45,12 @@ const FullEditor = () => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                setNewDoc(false)
+                navigate(`/editor/${data.insertId}`)
+                console.log('response after navigate ', data)
+                // setNewDoc(false)
+                /**
+                 * I think I need to add an id here now so that it wont create new doc very time
+                 */
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -69,7 +70,7 @@ const FullEditor = () => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
+                console.log('Success saving edited file:', data);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -78,24 +79,30 @@ const FullEditor = () => {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:3001/documents/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('data ', data)
-            setMarkdown(data[0].content)
-            setTitle(data[0].title)
-            setNewDoc(false)
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        })
-    }, [])
+        console.log('id equals: ', id)
+        if ( id != undefined ) {
+            fetch(`http://localhost:3001/documents/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('data ', data)
+                setMarkdown(data[0].content)
+                setTitle(data[0].title)
+                // setNewDoc(false)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
+        } else {
+            setTitle("")
+            setMarkdown("")
+        }
+    }, [id])
 
     useEffect(() => {
         console.log('markdown use effect: ', markdown)
@@ -127,7 +134,7 @@ const FullEditor = () => {
 
     return (
         <>
-            <Navbar save={save} newDoc={newDocument} markdown={markdown}/>
+            <Navbar save={save} markdown={markdown}/>
             <div className="h-full w-full flex">
                 <Editor title={title} updateTitle={updateTitle} handleMarkdown={handleMarkdown} markdown={markdown}/>
                 <Output markdown={markdown} updatedMarkdown={updatedMarkdown} />

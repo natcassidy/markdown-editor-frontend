@@ -17,8 +17,8 @@ function App() {
       <Router>
         <div className="w-screen h-screen flex flex-col">
           <Routes>
-            <Route path="/" element={<Authentication />} />
-            <Route path="/editor" element={<FullEditor />} />
+            <Route path="/" exact element={<Authentication />} />
+            <Route path="/editor" exact element={<FullEditor />} />
             <Route path="/editor/:id" element={<FullEditor />} />
             <Route path="/documents" element={<Documents />} />
           </Routes>
