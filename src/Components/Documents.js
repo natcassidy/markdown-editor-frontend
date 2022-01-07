@@ -1,14 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { UserContext } from '../UserContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Documents = () => {
     const [loadDocuments, setLoadDocuments] = useState([])
-
     const { token } = useContext(UserContext)
+    let navigate = useNavigate()
 
-    useEffect(() => {
-        console.log('fetching documents with tok, ', token)
+    useEffect(() => {   
         fetch('http://localhost:3001/documents', {
             method: 'GET',
             headers: {
@@ -20,7 +19,7 @@ const Documents = () => {
         .then(data => {
             console.log('data ', data)
             setLoadDocuments(data)
-        })
+        })  
     }, []);
 
     return (
