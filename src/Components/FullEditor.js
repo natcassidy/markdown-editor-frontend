@@ -47,10 +47,6 @@ const FullEditor = () => {
             .then(data => {
                 navigate(`/editor/${data.insertId}`)
                 console.log('response after navigate ', data)
-                // setNewDoc(false)
-                /**
-                 * I think I need to add an id here now so that it wont create new doc very time
-                 */
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -76,6 +72,24 @@ const FullEditor = () => {
                 console.error('Error:', error);
             })
         }
+    }
+
+    const deleteDocument = () => {
+        fetch(`http://localhost:3001/documents/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                navigate(`/editor`)
+                console.log('file deleted')
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
     }
 
     useEffect(() => {
@@ -134,7 +148,7 @@ const FullEditor = () => {
 
     return (
         <>
-            <Navbar save={save} markdown={markdown}/>
+            <Navbar save={save} markdown={markdown} deleteDocument={deleteDocument} />
             <div className="h-full w-full flex">
                 <Editor title={title} updateTitle={updateTitle} handleMarkdown={handleMarkdown} markdown={markdown}/>
                 <Output markdown={markdown} updatedMarkdown={updatedMarkdown} />
