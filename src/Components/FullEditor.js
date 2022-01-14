@@ -109,8 +109,8 @@ const FullEditor = () => {
                 setTitle(data[0].title)
                 // setNewDoc(false)
             })
-            .catch((error) => {
-                console.error('Error:', error);
+            .catch((err) => {
+                console.log('error caught ', err)
             })
         } else {
             setTitle("")

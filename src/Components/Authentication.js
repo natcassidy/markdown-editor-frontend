@@ -1,13 +1,12 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react/cjs/react.development'
 import { UserContext } from '../UserContext'
-import { Link } from 'react-router-dom'
 
 const Authentication = () => {
     const [user, setUser] = useState("")
     const [password, setPassword] = useState("")
 
-    const { setUsername, setToken, token } = useContext(UserContext)
+    const { setUsername, setToken, setExpireTime } = useContext(UserContext)
 
     const handleUser = (e, field) => {
         let text = e.target.value
@@ -33,9 +32,12 @@ const Authentication = () => {
             })
         }).then(response => response.json()).then(result => {
             setUsername(user)
+            console.log('access token: ', result)
+            setExpireTime(result.expireTime)
             setToken(result.accessToken)
             setUser("")
             setPassword("")
+            localStorage.setItem("refresh_token", result.refreshToken)
         }).catch(err => {
             console.log('err', err)
         })

@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { UserContext } from '../UserContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Documents = () => {
+    const [reRender, setReRender] = useState(false)
     const [loadDocuments, setLoadDocuments] = useState([])
     const { token } = useContext(UserContext)
-    let navigate = useNavigate()
 
     useEffect(() => {   
         fetch('http://localhost:3001/documents', {
@@ -19,8 +19,11 @@ const Documents = () => {
         .then(data => {
             console.log('data ', data)
             setLoadDocuments(data)
-        })  
-    }, []);
+        }).catch(err => {
+            console.log('error caught ', err)
+        })
+    }, [])
+    
 
     return (
         <div>
