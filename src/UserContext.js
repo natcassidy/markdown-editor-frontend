@@ -6,8 +6,7 @@ const UserContextProvider = (props) => {
     const [username, setUsername] = useState("")
     const [token, setToken] = useState("")
     const [expireTime, setExpireTime] = useState("")
-    let count = 0
-
+    
     useEffect(() => {
         if (expireTime !== "" && expireTime !== undefined) {
             let expireTimeDigit = expireTime.match(/\d+/)[0]

@@ -4,6 +4,7 @@ import Editor from './Editor'
 import Output from './Output'
 import Navbar from './Navbar'
 import { UserContext } from '../UserContext'
+import { SettingsContext } from '../SettingsContext'
 
 const FullEditor = () => {
     const [title, setTitle] = useState("")
@@ -14,6 +15,7 @@ const FullEditor = () => {
     // const [newDoc, setNewDoc] = useState(true)
 
     const { token } = useContext(UserContext)
+    const { settingsRegex: { xlarge, large, medium, blockquote, bold, italic }} = useContext(SettingsContext)
 
     const updateTitle = (e) => {
         let newTitle = e.target.value
@@ -131,12 +133,12 @@ const FullEditor = () => {
     const convertMarkdown = () => {
         let text = markdown
         let convertedText = text
-        .replace(/^### (.*$)/gim, '<h3 class="text-gray-300 font-mono text-md">$1</h3>')
-        .replace(/^## (.*$)/gim, '<h2 class="text-gray-300 font-mono text-lg">$1</h2>')
-        .replace(/^# (.*$)/gim, '<h1 class="text-gray-300 font-mono text-2xl">$1</h1>')
-        .replace(/^\> (.*$)/gim, '<blockquote class="p-2 bg-gray-500 text-gray-300 font-mono text-md">$1</blockquote>')
-        .replace(/\*\*(.*)\*\*/gim, '<p class="font-extrabold">$1</p>')
-        .replace(/\*(.*)\*/gim, '<p class="italic">$1</p>')
+        .replace(xlarge, '<h3 class="text-gray-300 font-mono text-md">$1</h3>')
+        .replace(large, '<h2 class="text-gray-300 font-mono text-lg">$1</h2>')
+        .replace(medium, '<h1 class="text-gray-300 font-mono text-2xl">$1</h1>')
+        .replace(blockquote, '<blockquote class="p-2 bg-gray-500 text-gray-300 font-mono text-md">$1</blockquote>')
+        .replace(bold, '<p class="font-extrabold">$1</p>')
+        .replace(italic, '<p class="italic">$1</p>')
         .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
         .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
         .replace(/\n$/gim, '<br />')
