@@ -45,12 +45,13 @@ const Authentication = () => {
 
 
     return (
-        <div class="w-screen h-full flex justify-center content-center self-center">
-            <div class="flex flex-col justify-center items-center items-stretch border-gray-100 border-2 p-8 w-1/4 h-auto gap-4 self-center shadow">
-                <h4 class="font-bold font-mono text-xl text-green-400 self-center">Login</h4>
+        <div class="w-screen h-full flex justify-center content-center self-center bg-gray-200">
+            <div class="flex flex-col justify-center items-center items-stretch bg-gray-300 rounded-md p-8 w-1/4 h-auto gap-4 self-center shadow">
+                <h4 class="font-bold text-xl text-black self-center">Please Login</h4>
                 <input name="username" value={user} onChange={(e) => handleUser(e)} type="text" placeholder="Username" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                 <input name="password" type="password" value={password} onChange={(e) => handlePassword(e)} placeholder="Password" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
-                <button onClick={() => handleSubmit()} class="bg-blue-300 hover:bg-blue-400 p-1 shadow font-bold font-mono text-xl text-white" type="button">Enter</button>
+                <button onClick={() => handleSubmit()} class="bg-green-200 hover:bg-green-400 p-1 shadow font-bold text-xl text-black rounded-md" type="button">Login</button>
+                <button onClick={() => handleSubmit()} class="bg-green-200 hover:bg-green-400 p-1 shadow font-bold text-xl text-black rounded-md" type="button">Create Account</button>
             </div>
         </div>
     )

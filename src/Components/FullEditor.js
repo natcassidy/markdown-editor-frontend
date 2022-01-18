@@ -150,8 +150,8 @@ const FullEditor = () => {
 
     return (
         <>
-            <Navbar save={save} markdown={markdown} deleteDocument={deleteDocument} />
             <div className="h-full w-full flex">
+                <Navbar save={save} markdown={markdown} deleteDocument={deleteDocument} id={id} />
                 <Editor title={title} updateTitle={updateTitle} handleMarkdown={handleMarkdown} markdown={markdown}/>
                 <Output markdown={markdown} updatedMarkdown={updatedMarkdown} />
             </div>

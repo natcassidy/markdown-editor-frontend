@@ -7,7 +7,7 @@ const LoginRedirect = ({ children }) => {
     
     return token == ""
         ? children 
-        : <Navigate to="/documents" replace /> 
+        : <Navigate to="/editor" replace /> 
 }
 
 export default LoginRedirect
