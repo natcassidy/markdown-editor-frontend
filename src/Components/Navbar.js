@@ -3,28 +3,10 @@ import { UserContext } from '../UserContext'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Navbar = ({save, deleteDocument, id}) => {
+const Navbar = ({save, deleteDocument, id, loadDocuments, setToggleHiddenUser}) => {
     let { setToken } = useContext(UserContext)
-    const [loadDocuments, setLoadDocuments] = useState([])
     const { token, username } = useContext(UserContext)
 
-
-    useEffect(() => {   
-        fetch('http://localhost:3001/documents', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('data ', data)
-            setLoadDocuments(data)
-        }).catch(err => {
-            console.log('error caught ', err)
-        })
-    }, [])
 
     const logout = () => {
         setToken("")
@@ -34,13 +16,13 @@ const Navbar = ({save, deleteDocument, id}) => {
     const deselected = "flex items-center px-8 py-2 w-full hover:bg-gray-300"
 
     return (
-        <div className="bg-gray-200 w-2/6 h-full flex-col justify-start items-center">
-            <Link className="h-16 w-full" to={`/editor`} >
+        <div className="bg-gray-200 flex w-2/6 h-full flex-col justify-start items-center">
+            <button className="h-16 w-full" onClick={() => setToggleHiddenUser(prev => !prev)} >
                 <div className="flex items-center p-4 m-2 bg-gray-300 rounded-md">
                     <FontAwesomeIcon icon="user-circle" color="#374151" size="lg" />
                     <div className="pl-4">{username}</div>
                 </div>
-            </Link>
+            </button>
             <Link className="h-8 flex items-center pl-8 hover:bg-gray-300 w-full" to={`/editor`} >
                 <FontAwesomeIcon icon="plus" color="#374151" size="md" />
                 <div className="pl-4">New</div>
@@ -59,16 +41,20 @@ const Navbar = ({save, deleteDocument, id}) => {
             </button>
             <div className="h-8 border-b border-gray-600" />
             <div className="h-4" />
-            {loadDocuments.length > 0 && loadDocuments.map(item => {
-                return (
-                    <Link key={item.documentID} className="" to={`/editor/${item.documentID}`} >
-                        <button className={id == item.documentID ? selected : deselected}>
-                            <FontAwesomeIcon icon="file" color="#374151" size="md" />
-                            <p className="pl-4 truncate">{item.title}</p>
-                        </button>
-                    </Link>
-                )
-            })}
+            <ul className="overflow-y-scroll list-none flex-col w-11/12 h-3/6">
+                {loadDocuments.length > 0 && loadDocuments.map(item => {
+                    return (
+                        <li>
+                            <Link key={item.documentID} className="" to={`/editor/${item.documentID}`} >
+                                <button className={id == item.documentID ? selected : deselected}>
+                                    <FontAwesomeIcon icon="file" color="#374151" size="md" />
+                                    <p className="pl-4 truncate">{item.title}</p>
+                                </button>
+                            </Link>
+                        </li>
+                    )
+                })}
+            </ul>
         </div>
     )
 }

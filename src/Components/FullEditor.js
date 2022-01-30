@@ -3,6 +3,7 @@ import { useParams, Navigate, useNavigate } from 'react-router-dom'
 import Editor from './Editor'
 import Output from './Output'
 import Navbar from './Navbar'
+import UserSettings from './UserSettings'
 import { UserContext } from '../UserContext'
 import { SettingsContext } from '../SettingsContext'
 
@@ -10,12 +11,64 @@ const FullEditor = () => {
     const [title, setTitle] = useState("")
     const [markdown, setMarkdown] = useState("")
     const [updatedMarkdown, setUpdatedMarkdown] = useState("")
+    const [loadDocuments, setLoadDocuments] = useState([])
+    const [toggleHiddenUser, setToggleHiddenUser] = useState(false)
+
     let { id } = useParams()
     let navigate = useNavigate()
     // const [newDoc, setNewDoc] = useState(true)
 
     const { token } = useContext(UserContext)
     const { settingsRegex: { xlarge, large, medium, blockquote, bold, italic }} = useContext(SettingsContext)
+    
+    useEffect(() => {
+        if ( id != undefined ) {
+            fetch(`http://localhost:3001/documents/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                setMarkdown(data[0].content)
+                setTitle(data[0].title)
+                // setNewDoc(false)
+            })
+            .catch((err) => {
+                console.log('error caught ', err)
+            })
+        } else {
+            setTitle("")
+            setMarkdown("")
+        }
+    }, [id])
+
+    useEffect(() => {   
+        fetch('http://localhost:3001/documents', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            setLoadDocuments(data)
+        }).catch(err => {
+            console.log('error caught ', err)
+        })
+    }, [id])
+
+    useEffect(() => {
+        convertMarkdown()
+    }, [markdown])
+
+    useEffect(() => {
+        convertMarkdown()
+    }, [title])
+
 
     const updateTitle = (e) => {
         let newTitle = e.target.value
@@ -28,7 +81,6 @@ const FullEditor = () => {
 
         setMarkdown(newMarkdown)
     }
-
 
     const save = () => {
         console.log('Save button clicked')
@@ -48,7 +100,6 @@ const FullEditor = () => {
             .then(response => response.json())
             .then(data => {
                 navigate(`/editor/${data.insertId}`)
-                console.log('response after navigate ', data)
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -68,10 +119,9 @@ const FullEditor = () => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success saving edited file:', data);
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('Error:', error)
             })
         }
     }
@@ -87,48 +137,11 @@ const FullEditor = () => {
             .then(response => response.json())
             .then(data => {
                 navigate(`/editor`)
-                console.log('file deleted')
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error('Error:', error)
             })
     }
-
-    useEffect(() => {
-        console.log('id equals: ', id)
-        if ( id != undefined ) {
-            fetch(`http://localhost:3001/documents/${id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('data ', data)
-                setMarkdown(data[0].content)
-                setTitle(data[0].title)
-                // setNewDoc(false)
-            })
-            .catch((err) => {
-                console.log('error caught ', err)
-            })
-        } else {
-            setTitle("")
-            setMarkdown("")
-        }
-    }, [id])
-
-    useEffect(() => {
-        console.log('markdown use effect: ', markdown)
-        convertMarkdown()
-    }, [markdown])
-
-    useEffect(() => {
-        console.log('title use effect: ', title)
-        convertMarkdown()
-    }, [title])
 
     const convertMarkdown = () => {
         let text = markdown
@@ -144,14 +157,14 @@ const FullEditor = () => {
         .replace(/\n$/gim, '<br />')
 
         convertedText.trim()
-        console.log('here is converted text', convertedText)
         setUpdatedMarkdown(convertedText)
     }
 
     return (
         <>
             <div className="h-full w-full flex">
-                <Navbar save={save} markdown={markdown} deleteDocument={deleteDocument} id={id} />
+                <UserSettings toggleHiddenUser={toggleHiddenUser} setToggleHiddenUser={setToggleHiddenUser}/>
+                <Navbar save={save} setToggleHiddenUser={setToggleHiddenUser} markdown={markdown} deleteDocument={deleteDocument} id={id} loadDocuments={loadDocuments}/>
                 <Editor title={title} updateTitle={updateTitle} handleMarkdown={handleMarkdown} markdown={markdown}/>
                 <Output markdown={markdown} updatedMarkdown={updatedMarkdown} />
             </div>

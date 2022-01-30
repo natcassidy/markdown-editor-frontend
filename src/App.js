@@ -10,20 +10,20 @@ import {
   Route
 } from "react-router-dom"
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faChessRook, faUserCircle, faPlus, faTrash, faSave, faFile, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faChessRook, faUserCircle, faPlus, faTrash, faSave, faFile, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { UserContextProvider } from './UserContext'
 import { SettingsContextProvider } from './SettingsContext'
 
 
-library.add(faChessRook, faUserCircle, faPlus, faTrash, faSave, faSignOutAlt, faFile)
+library.add(faChessRook, faUserCircle, faPlus, faTrash, faSave, faSignOutAlt, faFile, faTimes)
 
 function App() {
     return (
     <UserContextProvider>
       <SettingsContextProvider>
         <Router>
-          <div className="w-screen h-screen flex flex-col">
+          <div className="w-screen h-screen flex flex-col overflow-x-hidden">
             <div className="w-full h-16 bg-gray-700  flex items-center pl-8" >
               <FontAwesomeIcon icon="chess-rook" color="white" />
               <h2 className="font-bold text-lg text-white pl-4">Ultimate Editor</h2>
