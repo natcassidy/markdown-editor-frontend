@@ -17,7 +17,7 @@ const Navbar = ({save, deleteDocument, id, loadDocuments, setToggleHiddenUser}) 
 
     return (
         <div className="bg-gray-200 flex w-2/6 h-full flex-col justify-start items-center">
-            <button className="h-16 w-full" onClick={() => setToggleHiddenUser(prev => !prev)} >
+            <button className="h-16 w-full" onClick={() => setToggleHiddenUser(true)} >
                 <div className="flex items-center p-4 m-2 bg-gray-300 rounded-md">
                     <FontAwesomeIcon icon="user-circle" color="#374151" size="lg" />
                     <div className="pl-4">{username}</div>
