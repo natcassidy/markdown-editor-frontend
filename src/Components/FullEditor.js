@@ -4,6 +4,7 @@ import Editor from './Editor'
 import Output from './Output'
 import Navbar from './Navbar'
 import UserSettings from './UserSettings'
+import Commands from './Commands'
 import { UserContext } from '../UserContext'
 import { SettingsContext } from '../SettingsContext'
 
@@ -13,6 +14,7 @@ const FullEditor = () => {
     const [updatedMarkdown, setUpdatedMarkdown] = useState("")
     const [loadDocuments, setLoadDocuments] = useState([])
     const [toggleHiddenUser, setToggleHiddenUser] = useState(false)
+    const [toggleHiddenCommands, setToggleHiddenCommands] = useState(false)
 
     let { id } = useParams()
     let navigate = useNavigate()
@@ -146,10 +148,10 @@ const FullEditor = () => {
     const convertMarkdown = () => {
         let text = markdown
         let convertedText = text
-        .replace(xlarge, '<h3 class="text-gray-300 font-mono text-md">$1</h3>')
-        .replace(large, '<h2 class="text-gray-300 font-mono text-lg">$1</h2>')
-        .replace(medium, '<h1 class="text-gray-300 font-mono text-2xl">$1</h1>')
-        .replace(blockquote, '<blockquote class="p-2 bg-gray-500 text-gray-300 font-mono text-md">$1</blockquote>')
+        .replace(xlarge, '<h3 class="text-gray-300 text-4xl">$1</h3>')
+        .replace(large, '<h2 class="text-gray-300 text-2xl">$1</h2>')
+        .replace(medium, '<h1 class="text-gray-300 text-lg">$1</h1>')
+        .replace(blockquote, '<blockquote class="p-2 bg-gray-500 text-gray-300 text-md">$1</blockquote>')
         .replace(bold, '<p class="font-extrabold">$1</p>')
         .replace(italic, '<p class="italic">$1</p>')
         .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
@@ -163,8 +165,9 @@ const FullEditor = () => {
     return (
         <>
             <div className="h-full w-full flex">
+                <Commands toggleHiddenCommands={toggleHiddenCommands} setToggleHiddenCommands={setToggleHiddenCommands}/>
                 <UserSettings toggleHiddenUser={toggleHiddenUser} setToggleHiddenUser={setToggleHiddenUser}/>
-                <Navbar save={save} setToggleHiddenUser={setToggleHiddenUser} markdown={markdown} deleteDocument={deleteDocument} id={id} loadDocuments={loadDocuments}/>
+                <Navbar save={save} toggleHiddenCommands={toggleHiddenCommands} setToggleHiddenCommands={setToggleHiddenCommands} setToggleHiddenUser={setToggleHiddenUser} markdown={markdown} deleteDocument={deleteDocument} id={id} loadDocuments={loadDocuments}/>
                 <Editor title={title} updateTitle={updateTitle} handleMarkdown={handleMarkdown} markdown={markdown}/>
                 <Output markdown={markdown} updatedMarkdown={updatedMarkdown} />
             </div>

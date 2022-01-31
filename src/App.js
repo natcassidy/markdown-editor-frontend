@@ -10,13 +10,13 @@ import {
   Route
 } from "react-router-dom"
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faChessRook, faUserCircle, faPlus, faTrash, faSave, faFile, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faChessRook, faUserCircle, faPlus, faTrash, faSave, faFile, faSignOutAlt, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { UserContextProvider } from './UserContext'
 import { SettingsContextProvider } from './SettingsContext'
 
 
-library.add(faChessRook, faUserCircle, faPlus, faTrash, faSave, faSignOutAlt, faFile, faTimes)
+library.add(faChessRook, faUserCircle, faPlus, faTrash, faSave, faSignOutAlt, faFile, faTimes, faEdit)
 
 function App() {
     return (

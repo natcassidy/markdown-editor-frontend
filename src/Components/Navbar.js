@@ -3,7 +3,7 @@ import { UserContext } from '../UserContext'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Navbar = ({save, deleteDocument, id, loadDocuments, setToggleHiddenUser}) => {
+const Navbar = ({save, deleteDocument, id, loadDocuments, setToggleHiddenUser, setToggleHiddenCommands}) => {
     let { setToken } = useContext(UserContext)
     const { token, username } = useContext(UserContext)
 
@@ -22,6 +22,10 @@ const Navbar = ({save, deleteDocument, id, loadDocuments, setToggleHiddenUser}) 
                     <FontAwesomeIcon icon="user-circle" color="#374151" size="lg" />
                     <div className="pl-4">{username}</div>
                 </div>
+            </button>
+            <button className="h-16 w-full" onClick={() => setToggleHiddenCommands(true)} className="h-8 flex items-center pl-8 hover:bg-gray-300 w-full">
+                    <FontAwesomeIcon icon="edit" color="#374151" size="md" />
+                    <div className="pl-4">Edit Commands</div>
             </button>
             <Link className="h-8 flex items-center pl-8 hover:bg-gray-300 w-full" to={`/editor`} >
                 <FontAwesomeIcon icon="plus" color="#374151" size="md" />
