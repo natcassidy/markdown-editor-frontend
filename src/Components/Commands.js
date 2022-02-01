@@ -83,33 +83,42 @@ const Commands = ({toggleHiddenCommands, setToggleHiddenCommands}) => {
                 <div className="flex">
                     <div className="mr-4">
                         <h3 className="my-2 text-2xl">Extra Large Font </h3>
-                        <input name="xlarge" type="text" value={tempXlarge} onChange={(e) => handleInput(e, xlarge)} placeholder={xlarge} class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                        <input name="xlarge" type="text" value={tempXlarge} 
+                            onChange={(e) => handleInput(e, xlarge)} placeholder={xlarge} 
+                            class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                         
                         <h3 className="my-1 text-lg">Large Font </h3>
-                        <input name="large" type="text" value={tempLarge} onChange={(e) => handleInput(e, large)} placeholder={large} class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                        <input name="large" type="text" value={tempLarge} 
+                            onChange={(e) => handleInput(e, large)} placeholder={large} 
+                            class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                         
                         <h3 className="my-1 text-md">Medium Font </h3>
-                        <input name="medium" type="text" value={tempMedium} onChange={(e) => handleInput(e, medium)} placeholder={medium} class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                        <input name="medium" type="text" value={tempMedium} 
+                            onChange={(e) => handleInput(e, medium)} placeholder={medium} 
+                            class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                         
                     </div>
 
                     <div className="border-l-2 border-gray-300 pl-4">
                         <h3 className="mb-2 p-2 bg-gray-500 text-gray-300 text-md">Blockquote </h3>
-                        <input name="blockquote" type="text" value={tempBlockquote} onChange={(e) => handleInput(e, blockquote)} placeholder={blockquote} class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                        <input name="blockquote" type="text" value={tempBlockquote} 
+                            onChange={(e) => handleInput(e, blockquote)} placeholder={blockquote} 
+                            class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                         
                         <h3 className="mt-2 mb-1 font-extrabold">Bold </h3>
-                        <input name="bold" type="text" value={tempBold} onChange={(e) => handleInput(e, bold)} placeholder={bold} class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                        <input name="bold" type="text" value={tempBold} 
+                            onChange={(e) => handleInput(e, bold)} placeholder={bold} 
+                            class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                         
                         <h3 className="my-1 mb-1 italic">Italic </h3>
-                        <input name="italic" type="text" value={tempItalic} onChange={(e) => handleInput(e, italic)} placeholder={italic} class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input> 
+                        <input name="italic" type="text" value={tempItalic} 
+                            onChange={(e) => handleInput(e, italic)} placeholder={italic} 
+                            class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input> 
                     </div>
                 </div>
                 
-                
-                
-                
-                
-                <button onClick={() => handleSubmit()} class="bg-green-200 hover:bg-green-400 p-1 mt-4 mb-2 shadow font-bold text-xl text-black rounded-md" type="button">Update Settings</button>
+                <button onClick={() => handleSubmit()} 
+                    class="bg-green-200 hover:bg-green-400 p-1 mt-4 mb-2 shadow font-bold text-xl text-black rounded-md" type="button">Update Settings</button>
             </div>
         </div>
     )

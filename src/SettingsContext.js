@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { UserContext  } from './UserContext'
 
 const SettingsContext = React.createContext()
 
@@ -9,15 +10,30 @@ const SettingsContextProvider = (props) => {
     const [blockquote, setBlockquote] = useState(">")
     const [bold, setBold] = useState("\\*\\*")
     const [italic, setItalic] = useState("\\*")
+    const { token } = useContext(UserContext)
 
-    // let settingSelection = {
-    //     xlarge: `###`,
-    //     large: "##",
-    //     medium: "#",
-    //     blockquote: ">",
-    //     bold: "\\*\\*",
-    //     italic: "\\*",
-    // }
+    useEffect(() => {
+        fetch('http://localhost:3001/settings', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                xlargeSize: xlarge,
+                largeSize: large,
+                medium,
+                blockquote,
+                bold,
+                italic
+            })
+        })
+        .then(response => response.json()).then(data => {
+            console.log('data from settings: ', data)
+        }).catch(err => {
+            console.log('error caught ', err)
+        })
+    }, [xlarge, large, medium, blockquote, bold, italic])
 
     const changeSettings = (settingName, update) => {
         if(settingName == "xlarge") {
