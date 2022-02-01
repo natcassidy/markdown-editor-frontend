@@ -3,7 +3,6 @@ import { UserContext } from '../UserContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const CreateUser = ({toggleHiddenUser, setToggleHiddenUser}) => {
-    const { token } = useContext(UserContext)
     const { setUsername, setToken, setExpireTime } = useContext(UserContext)
     const [user, setUser] = useState("")
     const [password1, setPassword1] = useState("")
@@ -21,7 +20,7 @@ const CreateUser = ({toggleHiddenUser, setToggleHiddenUser}) => {
     const handlePassword = (e, count) => {
         let text = e.target.value
 
-        if(count == 1) {
+        if(count === 1) {
             setPassword1(text)
         } else {
             setPassword2(text)
@@ -42,9 +41,7 @@ const CreateUser = ({toggleHiddenUser, setToggleHiddenUser}) => {
                     password: password1
                 })
             }).then(response => response.json()).then(result => {
-                console.log('response: ', result)
                 setUsername(user)
-                console.log('access token: ', result.accessToken)
                 setExpireTime(result.expireTime)
                 setToken(result.accessToken)
                 localStorage.setItem("refresh_token", result.refreshToken)
@@ -63,13 +60,13 @@ const CreateUser = ({toggleHiddenUser, setToggleHiddenUser}) => {
                 </button>
                 <h2 className="mb-2 font-semibold text-lg">User Information</h2>
                 <h3 className="my-1">Username: </h3>
-                <input name="username" type="text" value={user} onChange={(e) => handleUser(e)} placeholder="Username" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                <input name="username" type="text" value={user} onChange={(e) => handleUser(e)} placeholder="Username" className="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                 <h3 className="my-1">Password: </h3>
-                <input name="password" type="password" value={password1} onChange={(e) => handlePassword(e, 1)} placeholder="Password" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+                <input name="password" type="password" value={password1} onChange={(e) => handlePassword(e, 1)} placeholder="Password" className="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
                 <h3 className="my-1">Re-enter Password: </h3>
-                <input name="password" type="password" value={password2} onChange={(e) => handlePassword(e, 2)} placeholder="Password" class="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
-                
-                <button onClick={() => handleSubmit()} class="bg-green-200 hover:bg-green-400 p-1 mt-4 mb-2 shadow font-bold text-xl text-black rounded-md" type="button">Create New Account</button>
+                <input name="password" type="password" value={password2} onChange={(e) => handlePassword(e, 2)} placeholder="Password" className="p-1 shadow focus:ring-2 focus:ring-gray-400 focus:outline-none focus:border-transparent rounded"></input>
+
+                <button onClick={() => handleSubmit()} className="bg-green-200 hover:bg-green-400 p-1 mt-4 mb-2 shadow font-bold text-xl text-black rounded-md" type="button">Create New Account</button>
             </div>
         </div>
     )

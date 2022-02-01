@@ -13,40 +13,42 @@ const SettingsContextProvider = (props) => {
     const { token } = useContext(UserContext)
 
     useEffect(() => {
-        fetch('http://localhost:3001/settings', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                xlargeSize: xlarge,
-                largeSize: large,
-                medium,
-                blockquote,
-                bold,
-                italic
+        if(token !== "") {
+            fetch('http://localhost:3001/settings', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    xlargeSize: xlarge,
+                    largeSize: large,
+                    medium,
+                    blockquote,
+                    bold,
+                    italic
+                })
             })
-        })
-        .then(response => response.json()).then(data => {
-            console.log('data from settings: ', data)
-        }).catch(err => {
-            console.log('error caught ', err)
-        })
+            .then(response => response.json()).then(data => {
+                console.log('data from settings: ', data)
+            }).catch(err => {
+                console.log('error caught ', err)
+            })
+        }
     }, [xlarge, large, medium, blockquote, bold, italic])
 
     const changeSettings = (settingName, update) => {
-        if(settingName == "xlarge") {
+        if(settingName === "xlarge") {
             setXlarge(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-        } else if(settingName == "large") {
+        } else if(settingName === "large") {
             setLarge(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-        } else if(settingName == "medium") {
+        } else if(settingName === "medium") {
             setMedium(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-        } else if(settingName == "blockquote") {
+        } else if(settingName === "blockquote") {
             setBlockquote(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-        } else if(settingName == "bold") {
+        } else if(settingName === "bold") {
             setBold(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-        } else if(settingName == "italic") {
+        } else if(settingName === "italic") {
             setItalic(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
         }
     }

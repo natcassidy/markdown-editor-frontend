@@ -3,7 +3,6 @@ import { UserContext } from '../UserContext'
 import { Link } from 'react-router-dom'
 
 const Documents = () => {
-    const [reRender, setReRender] = useState(false)
     const [loadDocuments, setLoadDocuments] = useState([])
     const { token } = useContext(UserContext)
 
@@ -17,7 +16,6 @@ const Documents = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('data ', data)
             setLoadDocuments(data)
         }).catch(err => {
             console.log('error caught ', err)
