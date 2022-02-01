@@ -15,13 +15,14 @@ const FullEditor = () => {
     const [loadDocuments, setLoadDocuments] = useState([])
     const [toggleHiddenUser, setToggleHiddenUser] = useState(false)
     const [toggleHiddenCommands, setToggleHiddenCommands] = useState(false)
+    const { setXlarge, setLarge, setMedium, setBlockquote, setBold, setItalic } = useContext(SettingsContext)
 
     let { id } = useParams()
     let navigate = useNavigate()
     // const [newDoc, setNewDoc] = useState(true)
 
     const { token } = useContext(UserContext)
-    const { settingsRegex: { xlarge, large, medium, blockquote, bold, italic }} = useContext(SettingsContext)
+    const { settingsRegex: {xlarge, large, medium, blockquote, bold, italic}, changeSettings } = useContext(SettingsContext)
     
     useEffect(() => {
         if ( id != undefined ) {
@@ -62,6 +63,28 @@ const FullEditor = () => {
             console.log('error caught ', err)
         })
     }, [id])
+
+    useEffect(() => {
+        fetch('http://localhost:3001/settings', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('response from /settings: ', data[0])
+            changeSettings("xlarge", data[0].xlargeSize)
+            changeSettings("large", data[0].largeSize)
+            changeSettings("medium", data[0].medium)
+            changeSettings("blockquote", data[0].blockquote)
+            changeSettings("bold", data[0].bold)
+            changeSettings("italic", data[0].italic)
+        }).catch(err => {
+            console.log('error caught ', err)
+        })
+    }, [])
 
     useEffect(() => {
         convertMarkdown()
@@ -118,9 +141,6 @@ const FullEditor = () => {
                     content: markdown,
                     id
                 }),
-            })
-            .then(response => response.json())
-            .then(data => {
             })
             .catch((error) => {
                 console.error('Error:', error)

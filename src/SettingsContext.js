@@ -19,6 +19,22 @@ const SettingsContextProvider = (props) => {
     //     italic: "\\*",
     // }
 
+    const changeSettings = (settingName, update) => {
+        if(settingName == "xlarge") {
+            setXlarge(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        } else if(settingName == "large") {
+            setLarge(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        } else if(settingName == "medium") {
+            setMedium(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        } else if(settingName == "blockquote") {
+            setBlockquote(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        } else if(settingName == "bold") {
+            setBold(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        } else if(settingName == "italic") {
+            setItalic(update.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        }
+    }
+
     let settingsRegex = {
         xlarge: new RegExp(`^${xlarge} (.*$)`, 'gim'),
         large: new RegExp(`^${large} (.*$)`, 'gim'),
@@ -29,7 +45,7 @@ const SettingsContextProvider = (props) => {
     }
 
     return (
-        <SettingsContext.Provider value={{settingsRegex, xlarge, setXlarge, large, setLarge, medium, setMedium, blockquote, setBlockquote, bold, setBold, italic, setItalic}}>
+        <SettingsContext.Provider value={{settingsRegex, changeSettings, xlarge, setXlarge, large, setLarge, medium, setMedium, blockquote, setBlockquote, bold, setBold, italic, setItalic}}>
             {props.children}
         </SettingsContext.Provider>
     )

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { SettingsContext } from "../SettingsContext"
 
 const Commands = ({toggleHiddenCommands, setToggleHiddenCommands}) => {
-    const { xlarge, setXlarge, large, setLarge, medium, setMedium, blockquote, setBlockquote, bold, setBold, italic, setItalic } = useContext(SettingsContext)
+    const { changeSettings, xlarge, setXlarge, large, setLarge, medium, setMedium, blockquote, setBlockquote, bold, setBold, italic, setItalic } = useContext(SettingsContext)
     const [tempXlarge, setTempXlarge] = useState("")
     const [tempLarge, setTempLarge] = useState("")
     const [tempMedium, setTempMedium] = useState("")
@@ -41,32 +41,32 @@ const Commands = ({toggleHiddenCommands, setToggleHiddenCommands}) => {
 
     const handleSubmit = () => {
         if(tempXlarge != ""){
-            setXlarge(tempXlarge)
+            changeSettings("xlarge", tempXlarge)
             setTempXlarge("")
         }
 
         if(tempLarge != ""){
-            setLarge(tempLarge)
+            changeSettings("large", tempLarge)
             setTempLarge("")
         }
 
         if(tempMedium != ""){
-            setMedium(tempMedium)
+            changeSettings("medium", tempMedium)
             setTempMedium("")
         }
 
         if(tempBlockquote != ""){
-            setBlockquote(tempBlockquote)
+            changeSettings("blockquote", tempBlockquote)
             setTempBlockquote("")
         }
 
         if(tempBold != ""){
-            setBold(tempBold)
+            changeSettings("bold", tempBold)
             setTempBold("")
         }
 
         if(tempItalic != ""){
-            setItalic(tempItalic)
+            changeSettings("italic", tempItalic)
             setTempItalic("")
         }
         setToggleHiddenCommands(false)
