@@ -94,6 +94,9 @@ const FullEditor = () => {
         convertMarkdown()
     }, [title])
 
+    useEffect(() => {
+        console.log('Use Effect UpdatedMarkdown: ', updatedMarkdown)
+    }, [updatedMarkdown])
 
     const updateTitle = (e) => {
         let newTitle = e.target.value
@@ -101,12 +104,7 @@ const FullEditor = () => {
         setTitle(newTitle)
     }
 
-    const handleMarkdown = (e) => {
-        let newMarkdown = e.target.value
-
-        setMarkdown(newMarkdown)
-    }
-
+    
     const save = () => {
         console.log('Save button clicked')
         if(id == undefined) {
@@ -165,8 +163,15 @@ const FullEditor = () => {
             })
     }
 
+    const handleMarkdown = (e) => {
+        let newMarkdown = e.target.value
+
+        setMarkdown(newMarkdown)
+    }
+
     const convertMarkdown = () => {
         let text = markdown
+        console.log('convertMarkdown() text before conversion: ', text)
         let convertedText = text
         .replace(xlarge, '<h3 class="text-gray-300 text-4xl">$1</h3>')
         .replace(large, '<h2 class="text-gray-300 text-2xl">$1</h2>')
@@ -176,9 +181,11 @@ const FullEditor = () => {
         .replace(italic, '<p class="italic">$1</p>')
         .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
         .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
-        .replace(/\n$/gim, '<br />')
+        .replace(/\n/gim, '<br />')
 
+        console.log('convertMarkdown() text after conversion b4 trim: ', convertedText)
         convertedText.trim()
+        console.log('convertMarkdown() text after conversion af trim: ', convertedText)
         setUpdatedMarkdown(convertedText)
     }
 
