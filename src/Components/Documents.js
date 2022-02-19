@@ -7,7 +7,7 @@ const Documents = () => {
     const { token } = useContext(UserContext)
 
     useEffect(() => {   
-        fetch('http://localhost:3001/documents', {
+        fetch('https://ultimate-markdown-server-h.herokuapp.com/documents', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

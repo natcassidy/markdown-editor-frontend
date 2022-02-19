@@ -25,7 +25,7 @@ const UserSettings = ({toggleHiddenUser, setToggleHiddenUser}) => {
         if(password1 !== password2) {
             alert("Please ensure both password inputs are the same!")
         } else {
-            fetch("http://localhost:4000/update-password", {
+            fetch("https://ultimate-markdown-auth-h.herokuapp.com/update-password", {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',

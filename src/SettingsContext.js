@@ -10,11 +10,12 @@ const SettingsContextProvider = (props) => {
     const [blockquote, setBlockquote] = useState(">")
     const [bold, setBold] = useState("\\*\\*")
     const [italic, setItalic] = useState("\\*")
+    const [settingsLoaded, setSettingsLoaded] = useState(false)
     const { token } = useContext(UserContext)
 
     useEffect(() => {
-        if(token !== "") {
-            fetch('http://localhost:3001/settings', {
+        if(token !== "" && settingsLoaded == true) {
+            fetch('https://ultimate-markdown-server-h.herokuapp.com/settings', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ const SettingsContextProvider = (props) => {
     }
 
     return (
-        <SettingsContext.Provider value={{settingsRegex, changeSettings, xlarge, setXlarge, large, setLarge, medium, setMedium, blockquote, setBlockquote, bold, setBold, italic, setItalic}}>
+        <SettingsContext.Provider value={{settingsRegex, changeSettings, xlarge, setXlarge, large, setLarge, medium, setMedium, blockquote, setBlockquote, bold, setBold, italic, setItalic, setSettingsLoaded}}>
             {props.children}
         </SettingsContext.Provider>
     )

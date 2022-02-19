@@ -31,7 +31,7 @@ const CreateUser = ({toggleHiddenUser, setToggleHiddenUser}) => {
         if(password1 !== password2) {
             alert("Please ensure both password inputs are the same!")
         } else {
-            fetch("http://localhost:4000/create-user", {
+            fetch("https://ultimate-markdown-auth-h.herokuapp.com/create-user", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

@@ -49,8 +49,8 @@ const Navbar = ({save, deleteDocument, id, loadDocuments, setToggleHiddenUser, s
                 {loadDocuments.length > 0 && loadDocuments.map(item => {
                     return (
                         <li key={item.documentID}>
-                            <Link className="" to={`/editor/${item.documentID}`} >
-                                <button className={id == item.documentID ? selected : deselected}>
+                            <Link className="" to={`/editor/${item.documentid}`} >
+                                <button className={id == item.documentid ? selected : deselected}>
                                     <FontAwesomeIcon icon="file" color="#374151"/>
                                     <p className="pl-4 truncate">{item.title}</p>
                                 </button>

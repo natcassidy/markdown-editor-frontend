@@ -21,23 +21,24 @@ const FullEditor = () => {
     // const [newDoc, setNewDoc] = useState(true)
 
     const { token } = useContext(UserContext)
-    const { settingsRegex: {xlarge, large, medium, blockquote, bold, italic}, changeSettings } = useContext(SettingsContext)
+    const { settingsRegex: {xlarge, large, medium, blockquote, bold, italic}, changeSettings, setSettingsLoaded } = useContext(SettingsContext)
     
     useEffect(() => {
         if ( id !== undefined ) {
-            fetch(`http://localhost:3001/documents/${id}`, {
+            fetch(`https://ultimate-markdown-server-h.herokuapp.com/documents/${id}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             })
             .then(response => response.json())
             .then(data => {
-                setMarkdown(data[0].content)
-                setTitle(data[0].title)
+                console.log('response from GET /documents/id: ', data)
+                setMarkdown(data.content)
+                setTitle(data.title)
             })
             .catch((err) => {
+                console.log('token: ', token)
                 console.log('error caught ', err)
             })
         } else {
@@ -47,38 +48,41 @@ const FullEditor = () => {
     }, [id])
 
     useEffect(() => {   
-        fetch('http://localhost:3001/documents', {
+        fetch('https://ultimate-markdown-server-h.herokuapp.com/documents', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         })
         .then(response => response.json())
         .then(data => {
+            console.log('response from GET /documents: ', data)
             setLoadDocuments(data)
         }).catch(err => {
+            console.log('token: ', token)
             console.log('error caught ', err)
         })
     }, [id])
 
     useEffect(() => {
-        fetch('http://localhost:3001/settings', {
+        fetch('https://ultimate-markdown-server-h.herokuapp.com/settings', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         })
         .then(response => response.json())
         .then(data => {
-            changeSettings("xlarge", data[0].xlargeSize)
-            changeSettings("large", data[0].largeSize)
-            changeSettings("medium", data[0].medium)
-            changeSettings("blockquote", data[0].blockquote)
-            changeSettings("bold", data[0].bold)
-            changeSettings("italic", data[0].italic)
+            console.log('response from GET /settings: ', data)
+            changeSettings("xlarge", data.xlargesize)
+            changeSettings("large", data.largesize)
+            changeSettings("medium", data.medium)
+            changeSettings("blockquote", data.blockquote)
+            changeSettings("bold", data.bold)
+            changeSettings("italic", data.italic)
+            setSettingsLoaded(true)
         }).catch(err => {
+            console.log('token: ', token)
             console.log('error caught ', err)
         })
     }, [])
@@ -100,7 +104,7 @@ const FullEditor = () => {
     const save = () => {
         console.log('Save button clicked')
         if(id === undefined) {
-            fetch('http://localhost:3001/new-document', {
+            fetch('https://ultimate-markdown-server-h.herokuapp.com/new-document', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,13 +117,15 @@ const FullEditor = () => {
             })
             .then(response => response.json())
             .then(data => {
-                navigate(`/editor/${data.insertId}`)
+                console.log('data from new doc: ', data.rows[0])
+                navigate(`/editor/${data.rows[0].documentid}`)
             })
             .catch((error) => {
+                console.log('token: ', token)
                 console.error('Error:', error);
             })
         } else {
-            fetch('http://localhost:3001/documents', {
+            fetch('https://ultimate-markdown-server-h.herokuapp.com/documents', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -132,13 +138,14 @@ const FullEditor = () => {
                 }),
             })
             .catch((error) => {
+                console.log('token: ', token)
                 console.error('Error:', error)
             })
         }
     }
 
     const deleteDocument = () => {
-        fetch(`http://localhost:3001/documents/${id}`, {
+        fetch(`https://ultimate-markdown-server-h.herokuapp.com/documents/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -150,6 +157,7 @@ const FullEditor = () => {
                 navigate(`/editor`)
             })
             .catch((error) => {
+                console.log('token: ', token)
                 console.error('Error:', error)
             })
     }

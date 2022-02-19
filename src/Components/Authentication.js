@@ -23,7 +23,7 @@ const Authentication = () => {
     }
 
     const handleSubmit = () => {
-        fetch("http://localhost:4000/login", {
+        fetch("https://ultimate-markdown-auth-h.herokuapp.com/login", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'

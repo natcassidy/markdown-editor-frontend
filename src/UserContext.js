@@ -31,7 +31,7 @@ const UserContextProvider = (props) => {
     }, [token])
 
     const handleRefreshToken = () => {
-        fetch("http://localhost:4000/refresh", {
+        fetch("https://ultimate-markdown-auth-h.herokuapp.com/refresh", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
